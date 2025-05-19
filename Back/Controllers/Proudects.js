@@ -52,7 +52,19 @@ module.exports = {
                 console.error("Update failed", err)
                 res.status(500).json({ error: "Something went wrong during update" })
             })
-    }
+    },
 
+    getOne: (req, res) => {
+        const { id } = req.params;
+
+        Products.findByPk(id)
+            .then(product => {
+                if (!product) {
+                    return res.status(404).json({ error: 'Product not found' });
+                }
+                res.json(product);
+            })
+            .catch(error => res.status(500).json({ error: 'Failed to fetch product details' }));
+    }
 
 }
